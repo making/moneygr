@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.THttpClient;
@@ -19,7 +20,7 @@ public class TUserServiceTest {
 
 	@Before
 	public void setup() throws Exception {
-		TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
+		TProtocolFactory protocolFactory = new TJSONProtocol.Factory();
 		TTransport transport = new THttpClient("http://localhost:8080/user");
 		TProtocol protocol = protocolFactory.getProtocol(transport);
 		client = new TUserService.Client(protocol);
