@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
-import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
@@ -53,6 +52,7 @@ public class TUserServiceTest {
 						.setFamily(new TFamily().setFamilyId(1))
 						.setRoles(Arrays.asList(new TRole("USER"), new TRole("ADMIN"))),
 				"password");
+		System.out.println("Created " + user);
 		assertThat(user, is(notNullValue()));
 		assertThat(user.getUserId(), is(notNullValue()));
 	}
