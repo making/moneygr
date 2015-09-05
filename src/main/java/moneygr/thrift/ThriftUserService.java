@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import moneygr.domain.model.AuditDateTime;
 import moneygr.domain.model.Family;
+import moneygr.domain.model.Role;
 import moneygr.domain.model.User;
 import moneygr.domain.repository.user.FamilyRepository;
 import moneygr.domain.repository.user.RoleRepository;
@@ -71,11 +72,13 @@ public class ThriftUserService implements TUserService.Iface {
 			user.setEmail(tUser.getEmail());
 			user.setFirstName(tUser.getFirstName());
 			user.setLastName(tUser.getLastName());
-			user.setRoles(tUser.getRoles().stream()
-					.map(x -> roleRepository.findOne(x.getRoleName()))
-					.filter(x -> x != null).collect(Collectors.toList()));
-			Family family = familyRepository.findOne(tUser.getFamily().getFamilyId());
-			user.setFamily(family);
+			user.setRoles(tUser.getRoles().stream().map(x -> {
+				Role role =  new Role();
+				role.setRoleName(x.getRoleName());
+				role.setVersion(0 /* dummy */);
+				return role;
+			}).collect(Collectors.toList()));
+			user.setFamily(tFamilyToFamily(tUser.getFamily()));
 		}
 		return user;
 	}
@@ -85,6 +88,7 @@ public class ThriftUserService implements TUserService.Iface {
 		if (tFamily != null) {
 			family.setFamilyId(tFamily.getFamilyId());
 			family.setFamilyName(tFamily.getFamilyName());
+			family.setVersion(0 /* dummy */);
 		}
 		return family;
 	}
