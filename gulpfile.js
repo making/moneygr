@@ -24,4 +24,5 @@ gulp.task('css', function () {
 
 gulp.task('watch', function () {
     gulp.watch(srcDir + '/*.js', ['browserify']);
+    gulp.watch(srcDir + '/**/*.jsx', ['browserify']);
 });
