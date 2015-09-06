@@ -29,6 +29,7 @@ class EventManager {
             },
             unsubscribe: () => {
                 this.emitter.removeListener(type);
+                delete this.cache[type];
             }
         };
         this.cache[type] = ev;
