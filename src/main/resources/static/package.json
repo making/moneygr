@@ -6,6 +6,7 @@
   "devDependencies": {
     "babelify": "^6.3.0",
     "browserify": "^11.0.1",
+    "dr-frankenstyle": "^0.2.6",
     "gulp": "^3.9.0",
     "react": "^0.13.3",
     "reactify": "^1.1.1",
@@ -15,5 +16,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pui-react-buttons": "^2.0.0-alpha.2",
+    "pui-react-dividers": "^2.0.0-alpha.2",
+    "pui-react-sortable-table": "^2.0.0-alpha.2",
+    "pui-react-typography": "^2.0.0-alpha.2"
+  }
 }
