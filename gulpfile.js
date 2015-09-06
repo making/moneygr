@@ -4,21 +4,24 @@ var source = require('vinyl-source-stream');
 var babelify = require('babelify');
 var drFrankenstyle = require('dr-frankenstyle');
 
+var srcDir = './src/main/js';
+var staticDir = './src/main/resources/static';
+
 gulp.task('browserify', function () {
-    return browserify('./src/index.js', {
+    return browserify(srcDir + '/index.js', {
         debug: true,
         transform: [babelify]
     })
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest(staticDir + '/js'));
 });
 
-gulp.task('css', function() {
+gulp.task('css', function () {
     return drFrankenstyle()
-        .pipe(gulp.dest('./css'));
+        .pipe(gulp.dest(staticDir + '/css'));
 });
 
 gulp.task('watch', function () {
-    gulp.watch('src/*.js', ['browserify']);
+    gulp.watch(srcDir + '/*.js', ['browserify']);
 });
