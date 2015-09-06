@@ -41,6 +41,10 @@ export default class EventManager {
         return this.event('LOAD_USERS');
     }
 
+    createUser() {
+        return this.event('CREATE_USER');
+    }
+
     deleteUser() {
         return this.event('DELETE_USER');
     }
