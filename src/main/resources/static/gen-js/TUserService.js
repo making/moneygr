@@ -443,6 +443,87 @@ TUserService_create_result.prototype.write = function(output) {
   return;
 };
 
+TUserService_deleteUser_args = function(args) {
+  this.userId = null;
+  if (args) {
+    if (args.userId !== undefined && args.userId !== null) {
+      this.userId = args.userId;
+    }
+  }
+};
+TUserService_deleteUser_args.prototype = {};
+TUserService_deleteUser_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.userId = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_deleteUser_args.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_deleteUser_args');
+  if (this.userId !== null && this.userId !== undefined) {
+    output.writeFieldBegin('userId', Thrift.Type.I32, 1);
+    output.writeI32(this.userId);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TUserService_deleteUser_result = function(args) {
+};
+TUserService_deleteUser_result.prototype = {};
+TUserService_deleteUser_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_deleteUser_result.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_deleteUser_result');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 TUserServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
@@ -643,4 +724,50 @@ TUserServiceClient.prototype.recv_create = function() {
     return result.success;
   }
   throw 'create failed: unknown result';
+};
+TUserServiceClient.prototype.deleteUser = function(userId, callback) {
+  this.send_deleteUser(userId, callback); 
+  if (!callback) {
+  this.recv_deleteUser();
+  }
+};
+
+TUserServiceClient.prototype.send_deleteUser = function(userId, callback) {
+  this.output.writeMessageBegin('deleteUser', Thrift.MessageType.CALL, this.seqid);
+  var args = new TUserService_deleteUser_args();
+  args.userId = userId;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_deleteUser();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+TUserServiceClient.prototype.recv_deleteUser = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new TUserService_deleteUser_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  return;
 };

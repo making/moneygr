@@ -1,6 +1,6 @@
 import React from 'react';
 import {Thrift, TUserServiceClient} from './thrift-client.js';
-import {DefaultButton} from 'pui-react-buttons';
+import {DefaultButton, DangerButton} from 'pui-react-buttons';
 import {Divider} from 'pui-react-dividers';
 import {DefaultH1, DefaultH2, DefaultH3, DefaultH4, DefaultH5, DefaultH6, AlternateH1, AlternateH2, AlternateH3, AlternateH4, AlternateH5, AlternateH6, MarketingH1, MarketingH2, MarketingH3, MarketingH4, MarketingH5, MarketingH6, Heading} from 'pui-react-typography'
 import {SortableTable, TableHeader, TableRow, TableCell} from 'pui-react-sortable-table';
@@ -20,13 +20,27 @@ export default class HelloWorld extends React.Component {
                 <DefaultH1>React.js Sample</DefaultH1>
                 <DefaultButton onClick={this.handleClick.bind(this)}>Reload</DefaultButton>
                 <Divider />
-                <Display events={this.props.events} />
+                <Display events={this.props.events}/>
             </div>
         );
     }
 
     handleClick() {
         this.props.events.loadUsers().publish();
+    }
+}
+
+class DeleteButton extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    handleClick() {
+        this.props.events.deleteUser().publish(this.props.user);
+    }
+
+    render() {
+        return <DangerButton onClick={this.handleClick.bind(this)}>Delete</DangerButton>;
     }
 }
 
@@ -42,11 +56,17 @@ class Display extends React.Component {
                 this.setState({users: body});
             });
         });
+        this.props.events.deleteUser().subscribe((user) => {
+            client.deleteUser(user.userId, () => {
+               this.props.events.loadUsers().publish();
+            });
+        });
         this.props.events.loadUsers().publish();
     }
 
     componentWillUnmount() {
         this.props.events.loadUsers().unsubscribe();
+        this.props.events.deleteUser().unsubscribe();
     }
 
     render() {
@@ -57,6 +77,9 @@ class Display extends React.Component {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.firstName}</TableCell>
                     <TableCell>{user.lastName}</TableCell>
+                    <TableCell>
+                        <DeleteButton user={user} events={this.props.events}/>
+                    </TableCell>
                 </TableRow>)
         });
         return (
@@ -65,7 +88,8 @@ class Display extends React.Component {
                     <TableHeader sortable={true}>UserId</TableHeader>,
                     <TableHeader sortable={true}>Email</TableHeader>,
                     <TableHeader sortable={true}>FirstName</TableHeader>,
-                    <TableHeader sortable={true}>LastName</TableHeader>
+                    <TableHeader sortable={true}>LastName</TableHeader>,
+                    <TableHeader>Actions</TableHeader>
                   ]}
                 className="table-light">
                 {body}

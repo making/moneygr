@@ -58,6 +58,11 @@ public class ThriftUserService implements TUserService.Iface {
 		return userToTUser(user);
 	}
 
+	@Override
+	public void deleteUser(int userId) throws TException {
+		userRepository.delete(userId);
+	}
+
 	TUser userToTUser(User user) {
 		return new TUser().setUserId(user.getUserId()).setEmail(user.getEmail())
 				.setFirstName(user.getFirstName()).setLastName(user.getLastName())

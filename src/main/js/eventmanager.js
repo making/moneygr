@@ -40,4 +40,8 @@ export default class EventManager {
     loadUsers() {
         return this.event('LOAD_USERS');
     }
+
+    deleteUser() {
+        return this.event('DELETE_USER');
+    }
 }

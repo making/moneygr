@@ -23,4 +23,5 @@ service TUserService {
     list<TUser> findUsers();
     TUser findUser(1: i32 userId);
     TUser create(1:TUser user, 2:string rawPassword);
+    void deleteUser(1: i32 userId);
 }
