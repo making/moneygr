@@ -1,5 +1,5 @@
 import React from 'react';
-import EventManager from './Events.js';
+import EventManager from './EventManager.js';
 import App from './components/App.jsx';
 
 React.render(
