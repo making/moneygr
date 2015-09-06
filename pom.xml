@@ -179,6 +179,9 @@
                                         <exec executable="thrift">
                                             <arg line="-r --gen java -out ${out.dir} ${thrift.dir}/moneygr.thrift"/>
                                         </exec>
+                                        <exec executable="thrift">
+                                            <arg line="-r --gen js -out src/main/resources/static/gen-js ${thrift.dir}/moneygr.thrift"/>
+                                        </exec>
                                     </target>
                                 </configuration>
                                 <goals>
