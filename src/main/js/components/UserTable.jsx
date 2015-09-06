@@ -1,34 +1,12 @@
 import React from 'react';
-import {Thrift, TUserServiceClient} from './thrift-client.js';
+import {Thrift, TUserServiceClient} from '../ThriftClient.js';
 import {DefaultButton, DangerButton} from 'pui-react-buttons';
-import {Divider} from 'pui-react-dividers';
 import {DefaultH1, DefaultH2, DefaultH3, DefaultH4, DefaultH5, DefaultH6, AlternateH1, AlternateH2, AlternateH3, AlternateH4, AlternateH5, AlternateH6, MarketingH1, MarketingH2, MarketingH3, MarketingH4, MarketingH5, MarketingH6, Heading} from 'pui-react-typography'
 import {SortableTable, TableHeader, TableRow, TableCell} from 'pui-react-sortable-table';
 
 const transport = new Thrift.Transport("http://localhost:8080/user");
 const protocol = new Thrift.Protocol(transport);
 const client = new TUserServiceClient(protocol);
-
-export default class HelloWorld extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="container">
-                <DefaultH1>React.js Sample</DefaultH1>
-                <DefaultButton onClick={this.handleClick.bind(this)}>Reload</DefaultButton>
-                <Divider />
-                <Display events={this.props.events}/>
-            </div>
-        );
-    }
-
-    handleClick() {
-        this.props.events.loadUsers().publish();
-    }
-}
 
 class DeleteButton extends React.Component {
     constructor(props) {
@@ -44,7 +22,7 @@ class DeleteButton extends React.Component {
     }
 }
 
-class Display extends React.Component {
+export default class UserTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {users: []};
@@ -58,7 +36,7 @@ class Display extends React.Component {
         });
         this.props.events.deleteUser().subscribe((user) => {
             client.deleteUser(user.userId, () => {
-               this.props.events.loadUsers().publish();
+                this.props.events.loadUsers().publish();
             });
         });
         this.props.events.loadUsers().publish();

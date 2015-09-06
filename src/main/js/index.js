@@ -1,8 +1,8 @@
 import React from 'react';
-import HelloWorld from './components.js';
-import EventManager from './eventmanager.js';
+import EventManager from './Events.js';
+import App from './components/App.jsx';
 
 React.render(
-    <HelloWorld events={new EventManager()} />,
+    <App events={new EventManager()} />,
     document.getElementById('example')
 );
