@@ -36,6 +36,13 @@ public class ThriftUserService implements TUserService.Iface {
 	}
 
 	@Override
+	public List<TUser> findUsers() throws TException {
+		return userRepository.findAll().stream()
+				.map(this::userToTUser)
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public TUser findUser(int userId) throws TException {
 		User user = userRepository.findOne(userId);
 		return userToTUser(user);

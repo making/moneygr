@@ -20,6 +20,7 @@ struct TRole {
 
 service TUserService {
     list<TFamily> findFamilies();
+    list<TUser> findUsers();
     TUser findUser(1: i32 userId);
     TUser create(1:TUser user, 2:string rawPassword);
 }
