@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "devDependencies": {
+    "babelify": "^6.3.0",
     "browserify": "^11.0.1",
-    "browserify-shim": "^3.8.10",
     "gulp": "^3.9.0",
     "react": "^0.13.3",
     "reactify": "^1.1.1",
@@ -13,33 +13,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "thrift": "./lib/thrift.js",
-    "TUserServiceClient": "./gen-js/TUserService.js",
-    "ttypes": "./gen-js/moneygr_types.js"
-  },
-  "browserify-shim": {
-    "thrift": {
-      "exports": "Thrift"
-    },
-    "ttypes": {
-      "exports": "TUser",
-      "depends": "ttypes:TRole"
-    },
-    "TUserServiceClient": {
-      "exports": "TUserServiceClient",
-      "depends": [
-        "thrift:Thrift",
-        "ttypes:TFamily",
-        "ttypes:TUser"
-      ]
-    }
   },
   "author": "",
   "license": "ISC"

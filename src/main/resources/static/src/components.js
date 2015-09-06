@@ -1,13 +1,12 @@
-var React = require('react');
-var Thrift = require('thrift');
-var TUserServiceClient = require('TUserServiceClient');
+import React from 'react';
+import {Thrift, TUserServiceClient} from './thrift-client.js';
 
 var transport = new Thrift.Transport("http://localhost:8080/user");
 var protocol = new Thrift.Protocol(transport);
 var client = new TUserServiceClient(protocol);
 
-var HelloWorld = React.createClass({
-    render: function () {
+export default class HelloWorld extends React.Component {
+    render() {
         return (
             <div>
                 <h1>React.js Sample</h1>
@@ -15,18 +14,21 @@ var HelloWorld = React.createClass({
             </div>
         );
     }
-});
+}
 
-var Display = React.createClass({
-    getInitialState: function () {
-        return {};
-    },
-    componentDidMount: function () {
-        client.findUser(1, function (body) {
+class Display extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        client.findUser(1, (body) => {
             this.setState(body);
-        }.bind(this));
-    },
-    render: function () {
+        });
+    }
+
+    render() {
         return (
             <table>
                 <tr>
@@ -47,6 +49,4 @@ var Display = React.createClass({
                 </tr>
             </table>);
     }
-});
-
-module.exports = HelloWorld;
+}

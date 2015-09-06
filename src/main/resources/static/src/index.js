@@ -1,5 +1,5 @@
-var React = require('react');
-var HelloWorld = require('./components.js');
+import React from 'react';
+import HelloWorld from './components.js';
 
 React.render(
     <HelloWorld />,

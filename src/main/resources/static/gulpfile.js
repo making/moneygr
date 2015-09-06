@@ -1,12 +1,12 @@
 var browserify = require('browserify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
-var reactify = require('reactify');
+var babelify = require('babelify');
 
 gulp.task('browserify', function () {
     return browserify('./src/index.js', {
         debug: true,
-        transform: [reactify]
+        transform: [babelify]
     })
         .bundle()
         .pipe(source('bundle.js'))
