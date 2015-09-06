@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
-  "dependencies": {
-    "gulp": "^3.9.0",
-    "reactify": "^1.1.1",
-    "react": "^0.13.3",
-    "browserify": "^11.0.1",
-    "vinyl-source-stream": "^1.1.0"
-  },
   "devDependencies": {
-    "browserify-shim": "^3.8.10"
+    "browserify": "^11.0.1",
+    "browserify-shim": "^3.8.10",
+    "gulp": "^3.9.0",
+    "react": "^0.13.3",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,13 +28,17 @@
     "thrift": {
       "exports": "Thrift"
     },
-    "ttypes" : {
-        "exports": "TUser",
-        "depends": "ttypes:TRole"
+    "ttypes": {
+      "exports": "TUser",
+      "depends": "ttypes:TRole"
     },
     "TUserServiceClient": {
       "exports": "TUserServiceClient",
-      "depends": ["thrift:Thrift", "ttypes:TFamily", "ttypes:TUser"]
+      "depends": [
+        "thrift:Thrift",
+        "ttypes:TFamily",
+        "ttypes:TUser"
+      ]
     }
   },
   "author": "",
