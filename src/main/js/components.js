@@ -5,9 +5,9 @@ import {Divider} from 'pui-react-dividers';
 import {DefaultH1, DefaultH2, DefaultH3, DefaultH4, DefaultH5, DefaultH6, AlternateH1, AlternateH2, AlternateH3, AlternateH4, AlternateH5, AlternateH6, MarketingH1, MarketingH2, MarketingH3, MarketingH4, MarketingH5, MarketingH6, Heading} from 'pui-react-typography'
 import {SortableTable, TableHeader, TableRow, TableCell} from 'pui-react-sortable-table';
 
-var transport = new Thrift.Transport("http://localhost:8080/user");
-var protocol = new Thrift.Protocol(transport);
-var client = new TUserServiceClient(protocol);
+const transport = new Thrift.Transport("http://localhost:8080/user");
+const protocol = new Thrift.Protocol(transport);
+const client = new TUserServiceClient(protocol);
 
 export default class HelloWorld extends React.Component {
     render() {
@@ -21,6 +21,7 @@ export default class HelloWorld extends React.Component {
         );
     }
 }
+
 class Display extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +35,7 @@ class Display extends React.Component {
     }
 
     render() {
-        var body = this.state.users.map(function (user, key) {
+        const body = this.state.users.map(function (user, key) {
             return (
                 <TableRow key={key}>
                     <TableCell>{user.userId}</TableCell>
