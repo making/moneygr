@@ -1,12 +1,8 @@
 import React from 'react';
-import {Thrift, TUserServiceClient} from '../ThriftClient.js';
+import {userService} from '../ThriftClient.js';
 import {DefaultButton, DangerButton} from 'pui-react-buttons';
 import {DefaultH1, DefaultH2, DefaultH3, DefaultH4, DefaultH5, DefaultH6, AlternateH1, AlternateH2, AlternateH3, AlternateH4, AlternateH5, AlternateH6, MarketingH1, MarketingH2, MarketingH3, MarketingH4, MarketingH5, MarketingH6, Heading} from 'pui-react-typography'
 import {SortableTable, TableHeader, TableRow, TableCell} from 'pui-react-sortable-table';
-
-const transport = new Thrift.Transport("http://localhost:8080/user");
-const protocol = new Thrift.Protocol(transport);
-const client = new TUserServiceClient(protocol);
 
 class DeleteButton extends React.Component {
     constructor(props) {
@@ -30,12 +26,12 @@ export default class UserTable extends React.Component {
 
     componentDidMount() {
         this.props.events.loadUsers().subscribe(() => {
-            client.findUsers((body) => {
+            userService.findUsers((body) => {
                 this.setState({users: body});
             });
         });
         this.props.events.deleteUser().subscribe((user) => {
-            client.deleteUser(user.userId, () => {
+            userService.deleteUser(user.userId, () => {
                 this.props.events.loadUsers().publish();
             });
         });

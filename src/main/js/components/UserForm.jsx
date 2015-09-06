@@ -2,11 +2,7 @@ import React from 'react';
 import {DefaultButton, DangerButton} from 'pui-react-buttons';
 import {Divider} from 'pui-react-dividers';
 import {DefaultH1, DefaultH2, DefaultH3, DefaultH4, DefaultH5, DefaultH6, AlternateH1, AlternateH2, AlternateH3, AlternateH4, AlternateH5, AlternateH6, MarketingH1, MarketingH2, MarketingH3, MarketingH4, MarketingH5, MarketingH6, Heading} from 'pui-react-typography'
-import {Thrift, TUserServiceClient, TUser, TRole, TFamily} from '../ThriftClient.js';
-
-const transport = new Thrift.Transport("http://localhost:8080/user");
-const protocol = new Thrift.Protocol(transport);
-const client = new TUserServiceClient(protocol);
+import {userService, TUser, TRole, TFamily} from '../ThriftClient.js';
 
 export default class UserForm extends React.Component {
     constructor(props) {
@@ -15,7 +11,7 @@ export default class UserForm extends React.Component {
 
     componentDidMount() {
         this.props.events.createUser().subscribe((user, password) => {
-            client.create(user, password, () => {
+            userService.create(user, password, () => {
                 this.props.events.loadUsers().publish();
             });
         });
