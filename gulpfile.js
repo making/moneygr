@@ -9,7 +9,7 @@ var staticDir = './src/main/resources/static';
 
 gulp.task('browserify', function () {
     return browserify(srcDir + '/index.js', {
-        debug: true,
+        debug: false,
         transform: [babelify]
     })
         .bundle()
