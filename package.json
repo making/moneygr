@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "pui-react-buttons": "^2.0.0-alpha.2",
+    "pui-react-collapse": "^2.0.0-alpha.2",
     "pui-react-dividers": "^2.0.0-alpha.2",
     "pui-react-sortable-table": "^2.0.0-alpha.2",
     "pui-react-typography": "^2.0.0-alpha.2"
