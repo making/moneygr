@@ -1,7 +1,7 @@
 package moneygr.thrift;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import moneygr.domain.model.AuditDateTime;
@@ -59,25 +59,28 @@ public class ThriftUserService implements TUserService.Iface {
 		return userToTUser(user);
 	}
 
-	@Override
-	public TUser updateWithoutPassword(TUser user) throws TException {
+	TUser withUpdate(TUser user, Consumer<User> consumer) throws TException {
 		User target = userRepository.findOne(user.getUserId());
 		User source = tUserToUser(user);
 		BeanUtils.copyProperties(source, target, "password", "auditDateTime", "version");
 		target.setAuditDateTime(AuditDateTime.now());
+		consumer.accept(target);
 		User updated = userRepository.saveAndFlush(target);
 		return userToTUser(updated);
 	}
 
 	@Override
+	public TUser updateWithoutPassword(TUser user) throws TException {
+		return withUpdate(user, x -> {
+		});
+	}
+
+	@Override
 	public TUser updateWithPassword(TUser user, String rawPassword) throws TException {
-		User target = userRepository.findOne(user.getUserId());
-		User source = tUserToUser(user);
-		BeanUtils.copyProperties(source, target, "password", "auditDateTime", "version");
-		target.setPassword(passwordEncoder.encode(rawPassword));
-		target.setAuditDateTime(AuditDateTime.now());
-		User updated = userRepository.saveAndFlush(target);
-		return userToTUser(updated);
+		return withUpdate(user, x -> {
+			String encoded = passwordEncoder.encode(rawPassword);
+			x.setPassword(encoded);
+		});
 	}
 
 	@Override
