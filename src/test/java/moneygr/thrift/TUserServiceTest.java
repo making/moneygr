@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -28,19 +29,7 @@ public class TUserServiceTest {
 	@Test
 	public void test() throws Exception {
 
-		{
-			TUser user = client.findUser(1);
-			System.out.println(user);
-			assertThat(user, is(notNullValue()));
-			assertThat(user.getUserId(), is(1));
-		}
-		{
-			TUser user = client.findUser(2);
-			System.out.println(user);
-			assertThat(user, is(notNullValue()));
-			assertThat(user.getUserId(), is(2));
-		}
-
+		System.out.println(client.findUsers());
 		System.out.println(client.findFamilies());
 
 	}
@@ -48,7 +37,9 @@ public class TUserServiceTest {
 	@Test
 	public void testCreate() throws Exception {
 		TUser user = client.create(
-				new TUser().setEmail("maki@ik.am").setFirstName("俊明").setLastName("槙")
+				new TUser()
+						.setEmail("created" + new Random().nextInt(1000) + "@example.com")
+						.setFirstName("俊明").setLastName("槙")
 						.setFamily(new TFamily().setFamilyId(1))
 						.setRoles(Arrays.asList(new TRole("USER"), new TRole("ADMIN"))),
 				"password");
@@ -57,4 +48,35 @@ public class TUserServiceTest {
 		assertThat(user.getUserId(), is(notNullValue()));
 	}
 
+	@Test
+	public void testUpdate() throws Exception {
+		TUser user = client.findUsers().get(0);
+		user.setEmail("updated" + new Random().nextInt(1000) + "@example.com");
+		user.setRoles(Arrays.asList(new TRole("USER")));
+		TUser updated = client.updateWithoutPassword(user);
+		System.out.println("Updated " + updated);
+		assertThat(updated, is(notNullValue()));
+		assertThat(updated.getUserId(), is(user.getUserId()));
+		assertThat(updated.getEmail(), is(user.getEmail()));
+		assertThat(updated.getFirstName(), is(user.getFirstName()));
+		assertThat(updated.getLastName(), is(user.getLastName()));
+		assertThat(updated.getFamily(), is(user.getFamily()));
+		assertThat(updated.getRoles(), is(user.getRoles()));
+	}
+
+	@Test
+	public void testUpdateWithUpdate() throws Exception {
+		TUser user = client.findUsers().get(0);
+		user.setEmail("updated" + new Random().nextInt(1000) + "@example.com");
+		user.setRoles(Arrays.asList(new TRole("USER")));
+		TUser updated = client.updateWithPassword(user, "moneygr");
+		System.out.println("Updated " + updated);
+		assertThat(updated, is(notNullValue()));
+		assertThat(updated.getUserId(), is(user.getUserId()));
+		assertThat(updated.getEmail(), is(user.getEmail()));
+		assertThat(updated.getFirstName(), is(user.getFirstName()));
+		assertThat(updated.getLastName(), is(user.getLastName()));
+		assertThat(updated.getFamily(), is(user.getFamily()));
+		assertThat(updated.getRoles(), is(user.getRoles()));
+	}
 }
