@@ -443,6 +443,235 @@ TUserService_create_result.prototype.write = function(output) {
   return;
 };
 
+TUserService_updateWithPassword_args = function(args) {
+  this.user = null;
+  this.rawPassword = null;
+  if (args) {
+    if (args.user !== undefined && args.user !== null) {
+      this.user = new TUser(args.user);
+    }
+    if (args.rawPassword !== undefined && args.rawPassword !== null) {
+      this.rawPassword = args.rawPassword;
+    }
+  }
+};
+TUserService_updateWithPassword_args.prototype = {};
+TUserService_updateWithPassword_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.user = new TUser();
+        this.user.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.rawPassword = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_updateWithPassword_args.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_updateWithPassword_args');
+  if (this.user !== null && this.user !== undefined) {
+    output.writeFieldBegin('user', Thrift.Type.STRUCT, 1);
+    this.user.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.rawPassword !== null && this.rawPassword !== undefined) {
+    output.writeFieldBegin('rawPassword', Thrift.Type.STRING, 2);
+    output.writeString(this.rawPassword);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TUserService_updateWithPassword_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new TUser(args.success);
+    }
+  }
+};
+TUserService_updateWithPassword_result.prototype = {};
+TUserService_updateWithPassword_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new TUser();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_updateWithPassword_result.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_updateWithPassword_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TUserService_updateWithoutPassword_args = function(args) {
+  this.user = null;
+  if (args) {
+    if (args.user !== undefined && args.user !== null) {
+      this.user = new TUser(args.user);
+    }
+  }
+};
+TUserService_updateWithoutPassword_args.prototype = {};
+TUserService_updateWithoutPassword_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.user = new TUser();
+        this.user.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_updateWithoutPassword_args.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_updateWithoutPassword_args');
+  if (this.user !== null && this.user !== undefined) {
+    output.writeFieldBegin('user', Thrift.Type.STRUCT, 1);
+    this.user.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+TUserService_updateWithoutPassword_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new TUser(args.success);
+    }
+  }
+};
+TUserService_updateWithoutPassword_result.prototype = {};
+TUserService_updateWithoutPassword_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new TUser();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+TUserService_updateWithoutPassword_result.prototype.write = function(output) {
+  output.writeStructBegin('TUserService_updateWithoutPassword_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 TUserService_deleteUser_args = function(args) {
   this.userId = null;
   if (args) {
@@ -724,6 +953,105 @@ TUserServiceClient.prototype.recv_create = function() {
     return result.success;
   }
   throw 'create failed: unknown result';
+};
+TUserServiceClient.prototype.updateWithPassword = function(user, rawPassword, callback) {
+  this.send_updateWithPassword(user, rawPassword, callback); 
+  if (!callback) {
+    return this.recv_updateWithPassword();
+  }
+};
+
+TUserServiceClient.prototype.send_updateWithPassword = function(user, rawPassword, callback) {
+  this.output.writeMessageBegin('updateWithPassword', Thrift.MessageType.CALL, this.seqid);
+  var args = new TUserService_updateWithPassword_args();
+  args.user = user;
+  args.rawPassword = rawPassword;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_updateWithPassword();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+TUserServiceClient.prototype.recv_updateWithPassword = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new TUserService_updateWithPassword_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'updateWithPassword failed: unknown result';
+};
+TUserServiceClient.prototype.updateWithoutPassword = function(user, callback) {
+  this.send_updateWithoutPassword(user, callback); 
+  if (!callback) {
+    return this.recv_updateWithoutPassword();
+  }
+};
+
+TUserServiceClient.prototype.send_updateWithoutPassword = function(user, callback) {
+  this.output.writeMessageBegin('updateWithoutPassword', Thrift.MessageType.CALL, this.seqid);
+  var args = new TUserService_updateWithoutPassword_args();
+  args.user = user;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_updateWithoutPassword();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+TUserServiceClient.prototype.recv_updateWithoutPassword = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new TUserService_updateWithoutPassword_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'updateWithoutPassword failed: unknown result';
 };
 TUserServiceClient.prototype.deleteUser = function(userId, callback) {
   this.send_deleteUser(userId, callback); 

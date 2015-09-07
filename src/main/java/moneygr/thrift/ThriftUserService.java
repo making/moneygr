@@ -1,5 +1,6 @@
 package moneygr.thrift;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import moneygr.domain.repository.user.RoleRepository;
 import moneygr.domain.repository.user.UserRepository;
 
 import org.apache.thrift.TException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,7 @@ public class ThriftUserService implements TUserService.Iface {
 
 	@Override
 	public List<TUser> findUsers() throws TException {
-		return userRepository.findAll().stream()
-				.map(this::userToTUser)
+		return userRepository.findAll().stream().map(this::userToTUser)
 				.collect(Collectors.toList());
 	}
 
@@ -56,6 +57,27 @@ public class ThriftUserService implements TUserService.Iface {
 		user.setAuditDateTime(AuditDateTime.now());
 		user = userRepository.saveAndFlush(user);
 		return userToTUser(user);
+	}
+
+	@Override
+	public TUser updateWithoutPassword(TUser user) throws TException {
+		User target = userRepository.findOne(user.getUserId());
+		User source = tUserToUser(user);
+		BeanUtils.copyProperties(source, target, "password", "auditDateTime", "version");
+		target.setAuditDateTime(AuditDateTime.now());
+		User updated = userRepository.saveAndFlush(target);
+		return userToTUser(updated);
+	}
+
+	@Override
+	public TUser updateWithPassword(TUser user, String rawPassword) throws TException {
+		User target = userRepository.findOne(user.getUserId());
+		User source = tUserToUser(user);
+		BeanUtils.copyProperties(source, target, "password", "auditDateTime", "version");
+		target.setPassword(passwordEncoder.encode(rawPassword));
+		target.setAuditDateTime(AuditDateTime.now());
+		User updated = userRepository.saveAndFlush(target);
+		return userToTUser(updated);
 	}
 
 	@Override
@@ -85,7 +107,7 @@ public class ThriftUserService implements TUserService.Iface {
 			user.setFirstName(tUser.getFirstName());
 			user.setLastName(tUser.getLastName());
 			user.setRoles(tUser.getRoles().stream().map(x -> {
-				Role role =  new Role();
+				Role role = new Role();
 				role.setRoleName(x.getRoleName());
 				role.setVersion(0 /* dummy */);
 				return role;
