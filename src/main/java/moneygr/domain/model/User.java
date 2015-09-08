@@ -44,7 +44,7 @@ public class User implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "family_id")
 	private Family family;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id") , inverseJoinColumns = @JoinColumn(name = "role_name", referencedColumnName = "role_name") )
 	private List<Role> roles;
 	@Embedded
